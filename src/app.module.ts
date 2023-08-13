@@ -8,6 +8,7 @@ import { TestimonialModule } from "./testimonial/testimonial.module";
 import { MailModule } from "./mail/mail.module";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
+import { FileModule } from './file/file.module';
 import * as process from "process";
 
 
@@ -24,7 +25,7 @@ import * as process from "process";
         strict: true
       }
     }
-  })],
+  }), FileModule],
   controllers: [AppController],
   providers: [AppService]
 })
