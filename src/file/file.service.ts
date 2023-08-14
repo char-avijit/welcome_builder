@@ -57,7 +57,18 @@ export class FileService {
         return this.#s3.getObject(downloadParams).createReadStream();
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} file`;
+    async remove(id: string) {
+        console.log(id);
+        const params = {
+            Key: id,
+            Bucket: process.env.R2_BUCKET
+        };
+        await this.#s3.deleteObject(params, (err, data) => {
+            /*console.log(err)
+            console.log(data)*/
+        });
+        return {
+            message: "deleted"
+        }
     }
 }

@@ -40,8 +40,10 @@ export class FileController {
         gg.pipe(res)
     }
 
-    @Delete(":id")
-    remove(@Param("id") id: string) {
-        return this.fileService.remove(+id);
+    @Delete(":key")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    remove(@Param("key") key: string,) {
+        return this.fileService.remove(key);
     }
 }
