@@ -7,14 +7,15 @@ import {
     Post,
     UploadedFile,
     UseInterceptors,
-    Response
+    Response, UseGuards
 } from "@nestjs/common";
 import {FileService} from "./file.service";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {CreateFileDto} from "./dto/create-file.dto";
-import {ApiAcceptedResponse, ApiConsumes, ApiTags} from "@nestjs/swagger";
+import {ApiAcceptedResponse, ApiBearerAuth, ApiConsumes, ApiDefaultResponse, ApiTags} from "@nestjs/swagger";
 import {UploadFileEntity} from "./entities/file.entity";
 import * as stream from "stream";
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @ApiTags("File")
 @Controller("file")
@@ -26,12 +27,14 @@ export class FileController {
     @ApiConsumes("multipart/form-data")
     @UseInterceptors(FileInterceptor("file"))
     @ApiAcceptedResponse({type: UploadFileEntity})
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     upload(@Body() data: CreateFileDto, @UploadedFile() file: Express.Multer.File) {
         return this.fileService.upload(file);
     }
 
     @Get(":key")
-    @ApiAcceptedResponse({type: stream.Readable})
+    @ApiDefaultResponse({type: stream.Readable})
     async findOne(@Param("key") key: string, @Response() res,) {
         const gg = await this.fileService.findOne(key);
         gg.pipe(res)
