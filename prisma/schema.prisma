@@ -25,3 +25,41 @@ model Subscribers {
   address String?
   email   String  @unique
 }
+
+model ShowCaseCategory {
+  id           Int        @id @default(autoincrement())
+  name         String
+  description  String?    @db.Text
+  ShowCaseItem ShowCase[]
+}
+
+model ShowCase {
+  id               Int               @id @default(autoincrement())
+  name             String
+  slug             String            @unique
+  address          String?
+  latitude         String?
+  longitude        String?
+  description      String            @db.Text
+  type             String
+  images           ShowCaseImages[]
+  metadata         ShowCaseMetaData?
+  showCaseCategory ShowCaseCategory  @relation(fields: [CategoryId], references: [id])
+  CategoryId       Int
+}
+
+model ShowCaseImages {
+  id         Int      @id @default(autoincrement())
+  key        String
+  showCase   ShowCase @relation(fields: [showCaseId], references: [id])
+  showCaseId Int
+}
+
+model ShowCaseMetaData {
+  id          Int      @id @default(autoincrement())
+  showCase    ShowCase @relation(fields: [showCaseId], references: [id])
+  showCaseId  Int      @unique
+  keywords    String?  @db.Text
+  description String?  @db.Text
+  ogImage     String?
+}

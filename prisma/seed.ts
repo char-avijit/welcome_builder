@@ -1,5 +1,5 @@
 import {PrismaClient} from '@prisma/client';
-
+import * as process from "process";
 // initialize Prisma Client
 const prisma = new PrismaClient();
 
@@ -21,6 +21,38 @@ async function main() {
             name: 'ami ekta user'
         }, update: {}, where: {name: 'ami ekta user'}
     });
+
+    await prisma.showCaseCategory.upsert({
+        create: {
+            name: "category one",
+            description: 'this is a description',
+        }, update: {}, where: {id: 1}
+    });
+    await prisma.showCaseCategory.upsert({
+        create: {
+            name: "category 2",
+            description: 'this is a description',
+        }, update: {}, where: {id: 2}
+    });
+
+    await prisma.showCase.upsert({
+        create: {
+            name: 'dsdfsd',
+            description: 'dfsdfsdf',
+            type: 'dd',
+            address: 'ddd',
+            CategoryId: 1,
+            slug: 'dddddddddd'
+        }, update: {}, where: {id: 1}
+    });
+
+    await prisma.showCaseImages.upsert({
+        create: {
+            showCaseId: 1,
+            key: 'test.png'
+        }, update: {}, where: {id: 1}
+    });
+
 }
 
 // execute the main function
