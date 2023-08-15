@@ -6,7 +6,7 @@ import {TestimonialsEntity} from "./entities/testimonials.entity";
 import { ApiBearerAuth, ApiCreatedResponse, ApiDefaultResponse, ApiTags } from "@nestjs/swagger";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {TestimonialEntity} from "./entities/testimonial.entity";
-import {PrismaClientExceptionFilter} from "../prisma-client-exception/prisma-client-exception.filter";
+import {PrismaClientExceptionFilter} from "../../common/prisma-client-exception/prisma-client-exception.filter";
 import {FiltersDto} from "./dto/filters.dto";
 
 @ApiTags("Testimonial")

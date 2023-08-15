@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { SendMailDto } from "./dto/send-mail.dto";
 import { SubscribeMailDto } from "./dto/subscribe-mail.dto";
 import { MailerService } from "@nestjs-modules/mailer";
-import { PrismaService } from "../prisma/prisma.service";
+import { PrismaService } from "../../common/prisma/prisma.service";
 import { SubFilterDto } from "./dto/sub-filter.dto";
 
 @Injectable()
