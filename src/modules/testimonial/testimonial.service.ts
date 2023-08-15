@@ -2,7 +2,7 @@ import {Injectable} from '@nestjs/common';
 import {CreateTestimonialDto} from './dto/create-testimonial.dto';
 import {UpdateTestimonialDto} from './dto/update-testimonial.dto';
 import {PrismaService} from "../../common/prisma/prisma.service";
-import {FiltersDto} from "./dto/filters.dto";
+import {FiltersDto} from "../../common/dto/filters.dto";
 
 @Injectable()
 export class TestimonialService {

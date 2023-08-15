@@ -3,11 +3,11 @@ import {TestimonialService} from "./testimonial.service";
 import {CreateTestimonialDto} from "./dto/create-testimonial.dto";
 import {UpdateTestimonialDto} from "./dto/update-testimonial.dto";
 import {TestimonialsEntity} from "./entities/testimonials.entity";
-import { ApiBearerAuth, ApiCreatedResponse, ApiDefaultResponse, ApiTags } from "@nestjs/swagger";
+import {ApiBearerAuth, ApiCreatedResponse, ApiDefaultResponse, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {TestimonialEntity} from "./entities/testimonial.entity";
 import {PrismaClientExceptionFilter} from "../../common/prisma-client-exception/prisma-client-exception.filter";
-import {FiltersDto} from "./dto/filters.dto";
+import {FiltersDto} from "../../common/dto/filters.dto";
 
 @ApiTags("Testimonial")
 @Controller("testimonial")
