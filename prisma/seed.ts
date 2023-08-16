@@ -32,9 +32,8 @@ async function main() {
         create: {
             name: "category 2",
             description: 'this is a description',
-        }, update: {}, where: {id: 2}
+        }, update: {}, where: {id: 1}
     });
-
     await prisma.showCase.upsert({
         create: {
             name: 'dsdfsd',

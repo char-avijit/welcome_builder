@@ -1,37 +1,49 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete} from '@nestjs/common';
-import {ShowcaseService} from './showcase.service';
-import {CreateShowcaseDto} from './dto/create-showcase.dto';
-import {UpdateShowcaseDto} from './dto/update-showcase.dto';
-import {ApiTags} from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { ShowcaseService } from "./showcase.service";
+import { CreateShowcaseDto } from "./dto/create-showcase.dto";
+import { UpdateShowcaseDto } from "./dto/update-showcase.dto";
+import { ApiBearerAuth, ApiDefaultResponse, ApiTags } from "@nestjs/swagger";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { ShowcaseEntity } from "./entities/showcase.entity";
+import { ShowCaseFiltersDto } from "./dto/showCaseFilters.dto";
+import { ShowcasesEntity } from "./entities/showcases.entity";
 
 @ApiTags("Showcase")
-@Controller('showcase')
+@Controller("showcase")
 export class ShowcaseController {
-    constructor(private readonly showcaseService: ShowcaseService) {
-    }
+  constructor(private readonly showcaseService: ShowcaseService) {
+  }
 
-    @Post()
-    create(@Body() createShowcaseDto: CreateShowcaseDto) {
-        return this.showcaseService.create(createShowcaseDto);
-    }
+  @Post()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  create(@Body() createShowcaseDto: CreateShowcaseDto) {
+    return this.showcaseService.create(createShowcaseDto);
+  }
 
-    @Get()
-    findAll() {
-        return this.showcaseService.findAll();
-    }
+  @Get()
+  @ApiDefaultResponse({ type: ShowcasesEntity })
+  findAll(@Query() showCaseFiltersDto?: ShowCaseFiltersDto) {
+    return this.showcaseService.findAll(showCaseFiltersDto);
+  }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.showcaseService.findOne(+id);
-    }
+  @Get([":id", ":slug"])
+  @ApiDefaultResponse({ type: ShowcaseEntity })
+  findOne(@Param("id/slug") id: string) {
+    return this.showcaseService.findOne(id);
+  }
 
-    @Patch(':id')
-    update(@Param('id') id: string, @Body() updateShowcaseDto: UpdateShowcaseDto) {
-        return this.showcaseService.update(+id, updateShowcaseDto);
-    }
+  @Patch(":id")
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  update(@Param("id") id: string, @Body() updateShowcaseDto: UpdateShowcaseDto) {
+    return this.showcaseService.update(+id, updateShowcaseDto);
+  }
 
-    @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.showcaseService.remove(+id);
-    }
+  @Delete(":id")
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  remove(@Param("id") id: string) {
+    return this.showcaseService.remove(+id);
+  }
 }
