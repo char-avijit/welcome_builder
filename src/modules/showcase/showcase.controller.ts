@@ -1,12 +1,26 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors
+} from "@nestjs/common";
 import { ShowcaseService } from "./showcase.service";
 import { CreateShowcaseDto } from "./dto/create-showcase.dto";
 import { UpdateShowcaseDto } from "./dto/update-showcase.dto";
-import { ApiBearerAuth, ApiDefaultResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiDefaultResponse, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { ShowcaseEntity } from "./entities/showcase.entity";
 import { ShowCaseFiltersDto } from "./dto/showCaseFilters.dto";
 import { ShowcasesEntity } from "./entities/showcases.entity";
+import { FilesInterceptor } from "@nestjs/platform-express";
+import { imageUploadOptions } from "../../common/helper/imageFileUpload.helper";
 
 @ApiTags("Showcase")
 @Controller("showcase")
@@ -15,10 +29,13 @@ export class ShowcaseController {
   }
 
   @Post()
-  @ApiBearerAuth()
+  @ApiConsumes("multipart/form-data", "application/json")
+  @UseInterceptors(FilesInterceptor("files", 20, imageUploadOptions))
+  @ApiCreatedResponse({ type: ShowcaseEntity })
   @UseGuards(JwtAuthGuard)
-  create(@Body() createShowcaseDto: CreateShowcaseDto) {
-    return this.showcaseService.create(createShowcaseDto);
+  @ApiBearerAuth()
+  create(@Body() createShowcaseDto: CreateShowcaseDto, @UploadedFiles() files: Array<Express.Multer.File>) {
+    return this.showcaseService.create({ createShowcaseDto, files });
   }
 
   @Get()

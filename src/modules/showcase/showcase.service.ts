@@ -6,14 +6,86 @@ import { ShowCaseFiltersDto } from "./dto/showCaseFilters.dto";
 import { ShowcasesEntity } from "./entities/showcases.entity";
 import { ShowcaseEntity } from "./entities/showcase.entity";
 import { ShowcaseImageEntity } from "./entities/showcaseImage.entity";
+import { FileService } from "../file/file.service";
+import * as urlSlug from "url-slug";
 
 @Injectable()
 export class ShowcaseService {
-  constructor(private prisma: PrismaService) {
+  constructor(private prisma: PrismaService, private fileService: FileService) {
   }
 
-  create(createShowcaseDto: CreateShowcaseDto) {
-    return "This action adds a new showcase";
+  async create(arg: { createShowcaseDto: CreateShowcaseDto, files: Array<Express.Multer.File> }): Promise<ShowcaseEntity> {
+    const { createShowcaseDto, files } = arg;
+
+    const initShowCase = await this.prisma.showCase.create({
+      data: {
+        type: createShowcaseDto.type,
+        CategoryId: Number(createShowcaseDto.categoryId),
+        name: createShowcaseDto.name,
+        slug: urlSlug.convert(`${createShowcaseDto.name} ${this.#generateString(5)}`, {
+          transformer: urlSlug.LOWERCASE_TRANSFORMER
+        }),
+        address: createShowcaseDto.address,
+        latitude: createShowcaseDto.latitude,
+        longitude: createShowcaseDto.longitude,
+        description: createShowcaseDto.description
+      }
+    }).then(initShowCase => initShowCase);
+
+    const images: ShowcaseImageEntity[] = [];
+
+    for (const file of files) {
+      const uploadRes = await this.fileService.upload(file);
+
+      const image = await this.prisma.showCaseImages.create({
+        data: {
+          key: uploadRes.key,
+          showCaseId: initShowCase.id
+        }
+      }).then(image => image);
+
+      images.push({
+        key: uploadRes.key,
+        url: `http://localhost:3000/file/${uploadRes.key}`,
+        id: image.id
+      });
+    }
+    const category = await this.prisma.showCaseCategory.findFirst({
+      where: {
+        id: +createShowcaseDto.categoryId
+      }
+    }).then(category => category);
+    const metaData = await this.prisma.showCaseMetaData.create({
+      data: {
+        showCaseId: initShowCase.id,
+        description: createShowcaseDto.metadata.description,
+        keywords: createShowcaseDto.metadata.keywords
+      }
+    }).then(metaData => metaData);
+    return {
+      address: initShowCase.address,
+      description: initShowCase.description,
+      id: initShowCase.id,
+      images: images,
+      latitude: initShowCase.latitude,
+      longitude: initShowCase.longitude,
+      metadata: metaData,
+      name: initShowCase.name,
+      showCaseCategory: category,
+      slug: initShowCase.slug,
+      type: initShowCase.type
+    };
+  }
+
+  #generateString(length) {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = " ";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
   }
 
   async findAll(showCaseFiltersDto?: ShowCaseFiltersDto): Promise<ShowcasesEntity> {
@@ -71,7 +143,7 @@ export class ShowcaseService {
   }
 
   async #geShowcaseEntity(showCase) {
-    if(showCase){
+    if (showCase) {
       const imagesData = await this.prisma.showCaseImages.findMany({
         where: {
           showCaseId: showCase.id
@@ -113,7 +185,7 @@ export class ShowcaseService {
         metadata: metaData,
         showCaseCategory: category
       };
-    }else {
+    } else {
       throw new BadRequestException();
     }
   }
