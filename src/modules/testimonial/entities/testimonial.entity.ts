@@ -13,4 +13,8 @@ export class TestimonialEntity {
   @IsString()
   @ApiProperty()
   designation: string;
+
+  @IsString()
+  @ApiProperty()
+  avatar: string;
 }

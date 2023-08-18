@@ -16,6 +16,7 @@ model Testimonials {
   message     String
   name        String @unique
   designation String
+  avatar      String
 }
 
 model Subscribers {
