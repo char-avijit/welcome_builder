@@ -8,6 +8,7 @@ import { ShowcaseEntity } from "./entities/showcase.entity";
 import { ShowcaseImageEntity } from "./entities/showcaseImage.entity";
 import { FileService } from "../file/file.service";
 import * as urlSlug from "url-slug";
+import * as process from "process";
 
 @Injectable()
 export class ShowcaseService {
@@ -50,7 +51,7 @@ export class ShowcaseService {
 
       images.push({
         key: uploadRes.key,
-        url: `http://localhost:3000/file/${uploadRes.key}`,
+        url: `${process.env.HOST}/file/${uploadRes.key}`,
         id: image.id
       });
     }
@@ -164,7 +165,7 @@ export class ShowcaseService {
             {
               key: image.key,
               id: image.id,
-              url: `http://localhost:3000/file/${image.key}`
+              url: `${process.env.HOST}/file/${image.key}`
             }
           );
         }

@@ -6,6 +6,7 @@ import { FiltersDto } from "../../common/dto/filters.dto";
 import { TestimonialEntity } from "./entities/testimonial.entity";
 import { FileService } from "../file/file.service";
 import { TestimonialsEntity } from "./entities/testimonials.entity";
+import * as process from "process";
 
 @Injectable()
 export class TestimonialService {
@@ -20,7 +21,7 @@ export class TestimonialService {
         message: createTestimonialDto.message,
         name: createTestimonialDto.name,
         designation: createTestimonialDto.designation,
-        avatar: `http://localhost:3000/file/${uploadRes.key}`
+        avatar: `${process.env.HOST}/file/${uploadRes.key}`
       }
     });
   }
