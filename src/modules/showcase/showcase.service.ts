@@ -28,7 +28,11 @@ export class ShowcaseService {
         address: createShowcaseDto.address,
         latitude: createShowcaseDto.latitude,
         longitude: createShowcaseDto.longitude,
-        description: createShowcaseDto.description
+        description: createShowcaseDto.description,
+        area: createShowcaseDto.area,
+        areaUnit: createShowcaseDto.areaUnit,
+        currency: createShowcaseDto.currency,
+        price: createShowcaseDto.price
       }
     }).then(initShowCase => initShowCase);
 
@@ -73,7 +77,11 @@ export class ShowcaseService {
       name: initShowCase.name,
       showCaseCategory: category,
       slug: initShowCase.slug,
-      type: initShowCase.type
+      type: initShowCase.type,
+      area: initShowCase.area,
+      areaUnit: initShowCase.areaUnit,
+      currency: initShowCase.currency,
+      price: initShowCase.price
     };
   }
 
@@ -110,7 +118,7 @@ export class ShowcaseService {
     const resData: ShowcaseEntity[] = [];
     for (const value of showCases) {
       resData.push(
-        await this.#geShowcaseEntity(value)
+        await this.#getShowcaseEntity(value)
       );
     }
     return ({
@@ -135,14 +143,14 @@ export class ShowcaseService {
           }
         }).then(showCase => showCase);
       }
-      return this.#geShowcaseEntity(showCase);
+      return this.#getShowcaseEntity(showCase);
     } catch (e) {
       throw new BadRequestException(e);
     }
 
   }
 
-  async #geShowcaseEntity(showCase) {
+  async #getShowcaseEntity(showCase): Promise<ShowcaseEntity> {
     if (showCase) {
       const imagesData = await this.prisma.showCaseImages.findMany({
         where: {
@@ -183,7 +191,11 @@ export class ShowcaseService {
         type: showCase.type,
         images: images,
         metadata: metaData,
-        showCaseCategory: category
+        showCaseCategory: category,
+        area: showCase.area,
+        areaUnit: showCase.areaUnit,
+        price: showCase.price,
+        currency: showCase.currency
       };
     } else {
       throw new BadRequestException();

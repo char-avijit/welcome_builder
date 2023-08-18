@@ -13,4 +13,6 @@ export class CreateTestimonialDto {
   @IsString()
   @ApiProperty()
   designation: string;
+  @ApiProperty({ type: "string", format: "binary", required: true })
+  avatar: Express.Multer.File;
 }

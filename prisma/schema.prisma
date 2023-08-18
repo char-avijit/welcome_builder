@@ -41,6 +41,10 @@ model ShowCase {
   address          String?
   latitude         String?
   longitude        String?
+  price            Float
+  currency         String
+  area             Float
+  areaUnit         String
   description      String            @db.Text
   type             String
   images           ShowCaseImages[]

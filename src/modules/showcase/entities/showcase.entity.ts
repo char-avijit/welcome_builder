@@ -3,6 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { ShowcaseImageEntity } from "./showcaseImage.entity";
 import { ShowcaseMetaDataEntity } from "./showcaseMetaData.entity";
 import { CategoryEntity } from "../../category/entities/category.entity";
+import { AreaUnit, Currency, PropertyType } from "../../../common/helper/enum";
 
 export class ShowcaseEntity {
   @IsString()
@@ -34,10 +35,36 @@ export class ShowcaseEntity {
 
   @IsString()
   @ApiProperty()
-  description: string;
+  price: number;
+
+  @IsString()
+  @ApiProperty(
+    {
+      enum: Currency
+    }
+  )
+  currency: string;
 
   @IsString()
   @ApiProperty()
+  area: number;
+
+  @IsString()
+  @ApiProperty({
+    enum: AreaUnit
+  })
+  areaUnit: string;
+
+  @IsString()
+  @ApiProperty()
+  description: string;
+
+  @IsString()
+  @ApiProperty(
+    {
+      enum: PropertyType
+    }
+  )
   type: string;
 
   @IsString()
