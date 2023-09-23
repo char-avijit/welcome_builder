@@ -17,4 +17,8 @@ export class TestimonialEntity {
   @IsString()
   @ApiProperty()
   avatar: string;
+
+  @IsString()
+  @ApiProperty()
+  avatarImageKey: string;
 }

@@ -41,7 +41,6 @@ export class FileController {
   async findOne(@Param("key") key: string, @Response() res) {
     const gg = await this.fileService.findOne(key);
     res.setHeader("content-type", "application/octet-stream");
-    console.log(gg);
 
     gg.pipe(res);
   }

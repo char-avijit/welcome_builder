@@ -32,12 +32,10 @@ export class TestimonialController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiConsumes("multipart/form-data")
-  @UseInterceptors(FileInterceptor("avatar"))
   @ApiCreatedResponse({ type: TestimonialEntity })
   @Post()
-  create(@Body() createTestimonialDto: CreateTestimonialDto, @UploadedFile() file: Express.Multer.File) {
-    return this.testimonialService.create({ createTestimonialDto, file });
+  create(@Body() createTestimonialDto: CreateTestimonialDto,) {
+    return this.testimonialService.create({ createTestimonialDto });
   }
 
   @ApiDefaultResponse({ type: TestimonialsEntity })

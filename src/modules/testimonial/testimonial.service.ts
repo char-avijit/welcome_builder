@@ -13,15 +13,15 @@ export class TestimonialService {
   constructor(private prisma: PrismaService, private fileService: FileService) {
   }
 
-  async create(arg: { createTestimonialDto: CreateTestimonialDto, file: Express.Multer.File }): Promise<TestimonialEntity> {
-    const { createTestimonialDto, file } = arg;
-    const uploadRes = await this.fileService.upload(file);
+  async create(arg: { createTestimonialDto: CreateTestimonialDto, }): Promise<TestimonialEntity> {
+    const { createTestimonialDto } = arg;
     return this.prisma.testimonials.create({
       data: {
         message: createTestimonialDto.message,
         name: createTestimonialDto.name,
         designation: createTestimonialDto.designation,
-        avatar: `${process.env.HOST}/file/${uploadRes.key}`
+        avatar: `${process.env.HOST}/file/${createTestimonialDto.avatar}`,
+        avatarImageKey: createTestimonialDto.avatarImageKey
       }
     });
   }
@@ -35,7 +35,15 @@ export class TestimonialService {
     const skip = (pageNo - 1) * limitPerPage;
     const data = await this.prisma.testimonials.findMany({
       skip,
-      take: parseInt(String(limitPerPage))
+      take: parseInt(String(limitPerPage)),
+      orderBy: [
+        {
+          id: "desc"
+        },
+        {
+          name: "desc"
+        }
+      ]
     }).then(data => data);
     const count = await this.prisma.testimonials.count();
     return ({
@@ -59,7 +67,9 @@ export class TestimonialService {
       }, data: {
         message: updateTestimonialDto.message,
         name: updateTestimonialDto.name,
-        designation: updateTestimonialDto.designation
+        designation: updateTestimonialDto.designation,
+        avatar: `${process.env.HOST}/file/${updateTestimonialDto.avatar}`,
+        avatarImageKey: updateTestimonialDto.avatarImageKey
       }
     });
   }

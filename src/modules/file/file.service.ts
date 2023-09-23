@@ -32,7 +32,6 @@ export class FileService {
 
   async upload(file: Express.Multer.File): Promise<UploadFileEntity> {
     const key = `${this.#generateString(10).replace(" ", "")}${file.originalname.replace(" ", "").toLowerCase()}`;
-    console.log();
     const uploadParams = {
       Bucket: process.env.R2_BUCKET,
       Body: file.buffer,
@@ -41,7 +40,6 @@ export class FileService {
 
     await this.#s3.putObject(uploadParams, (err, data) => {
       console.log(err);
-      console.log(data);
     });
     return {
       key
