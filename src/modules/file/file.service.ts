@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import * as process from "process";
 import * as AWS from "aws-sdk";
 import { S3 } from "aws-sdk";
@@ -31,7 +31,7 @@ export class FileService {
   }
 
   async upload(file: Express.Multer.File): Promise<UploadFileEntity> {
-    const key = `${this.#generateString(10).replace(" ", "")}${file.originalname.replace(" ", "").toLowerCase()}`;
+    const key = `${this.#generateString(10).replace(" ", "")}${file.originalname.replace(" ", "").toLowerCase().replace(/[^a-zA-Z ]/g, "")}`;
     const uploadParams = {
       Bucket: process.env.R2_BUCKET,
       Body: file.buffer,
@@ -47,13 +47,12 @@ export class FileService {
   }
 
   async findOne(id: string) {
-    console.log(id);
+    console.log(id,'key');
     const downloadParams = {
       Key: id,
       Bucket: process.env.R2_BUCKET
     };
-    return this.#s3.getObject(downloadParams).createReadStream();
-
+    return this.#s3.getObject(downloadParams).createReadStream()
   }
 
   async remove(id: string) {

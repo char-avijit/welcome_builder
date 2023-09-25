@@ -6,7 +6,7 @@ import {
   Get,
   Param,
   Post,
-  Response,
+  Response, StreamableFile,
   UploadedFile,
   UseGuards,
   UseInterceptors
@@ -40,9 +40,9 @@ export class FileController {
   @ApiDefaultResponse({ type: stream.Readable })
   async findOne(@Param("key") key: string, @Response() res) {
     const gg = await this.fileService.findOne(key);
-    res.setHeader("content-type", "application/octet-stream");
-
-    gg.pipe(res);
+    //res.setHeader("content-type", "application/octet-stream");
+    const gsdfsdg = await gg.pipe(res);
+    return new StreamableFile(gsdfsdg);
   }
 
   @Delete(":key")

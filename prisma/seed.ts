@@ -11,8 +11,8 @@ async function main() {
       message: "sdfsdfsdf",
       designation: "sdfsdfs",
       name: "ishaf",
-      avatar: "sdfsdfsd",
-      avatarImageKey: "sdfsdfsd",
+      avatar: "http:/localhost:3000/file/5z4tsByuZ1mdrwasxujpextended_image_cropped_image(3).jpg",
+      avatarImageKey: "5z4tsByuZ1mdrwasxujpextended_image_cropped_image(3).jpg",
     }, update: {}, where: { name: "ishaf" }
 
   });
@@ -22,8 +22,8 @@ async function main() {
       message: "ami shundor comment korsi ekta like diya jan ",
       designation: "ami bekar",
       name: "ami ekta user",
-      avatar: "sdfsdfsd",
-      avatarImageKey: "sdfsdfsd",
+      avatar: "http:/localhost:3000/file/5z4tsByuZ1mdrwasxujpextended_image_cropped_image(3).jpg",
+      avatarImageKey: "5z4tsByuZ1mdrwasxujpextended_image_cropped_image(3).jpg",
     }, update: {}, where: { name: "ami ekta user" }
   });
 
