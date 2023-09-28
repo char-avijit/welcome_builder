@@ -1,6 +1,7 @@
 {
   "version": 2,
   "env": {
+
     "DATABASE_URL":"@DATABASE_URL",
     "SHADOW_DATABASE_URL":"@SHADOW_DATABASE_URL",
     "ADMIN_USERNAME":"@ADMIN_USERNAME",
