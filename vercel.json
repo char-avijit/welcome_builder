@@ -1,5 +1,18 @@
 {
   "version": 2,
+  "env": {
+    "DATABASE_URL":"@DATABASE_URL",
+    "SHADOW_DATABASE_URL":"@SHADOW_DATABASE_URL",
+    "ADMIN_USERNAME":"@ADMIN_USERNAME",
+    "ADMIN_PASSWORD":"@ADMIN_PASSWORD",
+    "JWT_SECRECT":"@JWT_SECRECT",
+    "SMTP":"@SMTP",
+    "R2_ACCOUNT_ID":"@R2_ACCOUNT_ID",
+    "R2_ACCESS_KEY_ID":"@R2_ACCESS_KEY_ID",
+    "R2_ACCESS_KEY_SECRET":"@R2_ACCESS_KEY_SECRET",
+    "R2_BUCKET":"@R2_BUCKET",
+    "HOST":"@HOST"
+  },
   "builds": [
     {
       "src": "src/main.ts",
