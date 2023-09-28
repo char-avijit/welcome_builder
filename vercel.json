@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "env": {
+    "MONGO_URI": "@shop_api_mongo_uri",
+
+    "DATABASE_URL":"@DATABASE_URL",
+    "SHADOW_DATABASE_URL":"@SHADOW_DATABASE_URL",
+    "ADMIN_USERNAME":"@ADMIN_USERNAME",
+    "ADMIN_PASSWORD":"@shop_api_mongo_uri",
+    "JWT_SECRECT":"@ADMIN_PASSWORD",
+    "SMTP":"@SMTP",
+    "R2_ACCOUNT_ID":"@R2_ACCOUNT_ID",
+    "R2_ACCESS_KEY_ID":"@R2_ACCESS_KEY_ID",
+    "R2_ACCESS_KEY_SECRET":"@R2_ACCESS_KEY_SECRET",
+    "R2_BUCKET":"@R2_BUCKET",
+    "HOST":"@HOST"
+  },
+  "builds": [
+    {
+      "src": "src/main.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/main.ts",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE"
+      ]
+    }
+  ]
+}
