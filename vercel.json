@@ -1,8 +1,5 @@
 {
   "version": 2,
-  "env": {
-    "DATABASE_URL":"@wb_database_url"
-  },
   "builds": [
     {
       "src": "src/main.ts",
