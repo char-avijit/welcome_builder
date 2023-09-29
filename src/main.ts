@@ -9,11 +9,12 @@ import { greenBright } from "cli-color";
 
 const logger = new LoggerClass("Bootstrap");
 const PORT = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT) : 3000;
-const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+
 (async function bootstrap() {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(helmet.default({crossOriginResourcePolicy: false,}));
   app.enableCors({ origin: true });
-
   app.enableCors({
     origin: ["*"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
@@ -36,5 +37,3 @@ const app = await NestFactory.create<NestExpressApplication>(AppModule);
   logger.log(`🚀🚀 Started Server 🚀🚀 at PORT ${greenBright(PORT)}`);
   logger.log(`http://localhost:${PORT}`);
 })();
-
-export default app;
