@@ -28,14 +28,13 @@
     "@nestjs/jwt": "^10.0.3",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
-    "@nestjs/swagger": "^6.3.0",
+
     "@prisma/client": "^4.14.1",
     "@types/figlet": "^1.5.6",
     "aws-sdk": "^2.1435.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "cli-color": "^2.0.3",
-    "figlet": "^1.6.0",
     "handlebars": "^4.7.7",
     "helmet": "^7.0.0",
     "nodemailer": "^6.9.3",
@@ -43,11 +42,11 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0",
     "swagger-ui-express": "^4.6.3",
     "url-slug": "^4.0.1"
   },
   "devDependencies": {
+    "@nestjs/swagger": "^6.3.0",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
