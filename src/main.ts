@@ -12,7 +12,7 @@ const PORT = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT) : 3000;
 
 
 
-(async function bootstrap() {
+const appp = (async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.use(helmet.default({crossOriginResourcePolicy: false,}));
@@ -39,3 +39,5 @@ const PORT = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT) : 3000;
   logger.log(`🚀🚀 Started Server 🚀🚀 at PORT ${greenBright(PORT)}`);
   logger.log(`http://localhost:${PORT}`);
 })();
+
+export default appp;
