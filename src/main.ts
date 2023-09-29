@@ -8,7 +8,7 @@ import * as helmet from "helmet";
 import { greenBright } from "cli-color";
 
 const logger = new LoggerClass("Bootstrap");
-const PORT = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT) : 3000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 
 (async function bootstrap() {
