@@ -33,7 +33,7 @@ const PORT = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT) : 3000;
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("docs", app, document);
 
-  await app.listen(PORT);
+  await app.listen(PORT,"0.0.0.0");
 
   logger.log(`🚀🚀 Started Server 🚀🚀 at PORT ${greenBright(PORT)}`);
   logger.log(`http://localhost:${PORT}`);
