@@ -11,11 +11,10 @@ const logger = new LoggerClass("Bootstrap");
 const PORT = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT) : 3000;
 
 
-
-const appp = (async function bootstrap() {
+(async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.use(helmet.default({crossOriginResourcePolicy: false,}));
+  app.use(helmet.default({ crossOriginResourcePolicy: false }));
   app.enableCors({ origin: true });
   app.enableCors({
     origin: ["*"],
@@ -39,5 +38,3 @@ const appp = (async function bootstrap() {
   logger.log(`🚀🚀 Started Server 🚀🚀 at PORT ${greenBright(PORT)}`);
   logger.log(`http://localhost:${PORT}`);
 })();
-
-export default appp;
