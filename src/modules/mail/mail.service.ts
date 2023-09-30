@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { SendMailDto } from "./dto/send-mail.dto";
 import { SubscribeMailDto } from "./dto/subscribe-mail.dto";
 import { MailerService } from "@nestjs-modules/mailer";
@@ -22,9 +22,9 @@ export class MailService {
           email: subscribeMailDto.email
         }
       });
-    }else {
+    } else {
       return ({
-        "status":"success"
+        "status": "success"
       });
     }
   }
@@ -43,7 +43,7 @@ export class MailService {
     const count = await this.prisma.subscribers.count();
     return ({
       count,
-      data
+      results: data
     });
   }
 
@@ -70,7 +70,7 @@ export class MailService {
         context: sendMailDto
       });
     return ({
-      "status":"success"
+      "status": "success"
     });
   }
 }
