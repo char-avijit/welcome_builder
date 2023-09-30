@@ -11,11 +11,22 @@ export class MailService {
   }
 
   async subscribe(subscribeMailDto: SubscribeMailDto) {
-    await this.prisma.subscribers.create({
-      data: {
+    const exist = await this.prisma.subscribers.findUnique({
+      where: {
         email: subscribeMailDto.email
       }
     });
+    if (!exist) {
+      return this.prisma.subscribers.create({
+        data: {
+          email: subscribeMailDto.email
+        }
+      });
+    }else {
+      return ({
+        "status":"success"
+      });
+    }
   }
 
   async getSubscribers(subFilterDto: SubFilterDto) {
