@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { SendMailDto } from "./dto/send-mail.dto";
 import { SubscribeMailDto } from "./dto/subscribe-mail.dto";
 import { MailerService } from "@nestjs-modules/mailer";
@@ -37,20 +37,29 @@ export class MailService {
   }
 
   async sendMail(sendMailDto: SendMailDto) {
-    await this.prisma.subscribers.create({
-      data: {
-        email: sendMailDto.email,
-        name: sendMailDto.name
+    const exist = await this.prisma.subscribers.findUnique({
+      where: {
+        email: sendMailDto.email
       }
     });
+    if (!exist) {
+      await this.prisma.subscribers.create({
+        data: {
+          email: sendMailDto.email,
+          name: sendMailDto.name
+        }
+      });
+    }
     await this.mailerService
       .sendMail({
-        to: "admin@ishaf.info",
+        to: sendMailDto.email,
         from: "no-reply@ishaf.info",
         subject: sendMailDto.subject,
         template: "someOneNeedToContact",
         context: sendMailDto
       });
-    return "This action adds a new mail";
+    return ({
+      "status":"success"
+    });
   }
 }
