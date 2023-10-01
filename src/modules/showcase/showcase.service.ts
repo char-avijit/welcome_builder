@@ -15,8 +15,8 @@ export class ShowcaseService {
   constructor(private prisma: PrismaService, private fileService: FileService) {
   }
 
-  async create(arg: { createShowcaseDto: CreateShowcaseDto, files: Array<Express.Multer.File> }): Promise<ShowcaseEntity> {
-    const { createShowcaseDto, files } = arg;
+  async create(arg: { createShowcaseDto: CreateShowcaseDto}): Promise<ShowcaseEntity> {
+    const { createShowcaseDto } = arg;
 
     const initShowCase = await this.prisma.showCase.create({
       data: {
@@ -39,19 +39,18 @@ export class ShowcaseService {
 
     const images: ShowcaseImageEntity[] = [];
 
-    for (const file of files) {
-      const uploadRes = await this.fileService.upload(file);
+    for (const file of createShowcaseDto.files) {
 
       const image = await this.prisma.showCaseImages.create({
         data: {
-          key: uploadRes.key,
+          key: file,
           showCaseId: initShowCase.id
         }
       }).then(image => image);
 
       images.push({
-        key: uploadRes.key,
-        url: `${process.env.HOST}/file/${uploadRes.key}`,
+        key: file,
+        url: `${process.env.HOST}/file/${file}`,
         id: image.id
       });
     }

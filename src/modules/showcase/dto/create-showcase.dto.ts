@@ -5,8 +5,8 @@ import { AreaUnit, Currency, PropertyType } from "../../../common/helper/enum";
 
 
 export class CreateShowcaseDto {
-  @ApiProperty({ type: ["file"], format: "binary", required: true })
-  files: Array<Express.Multer.File>;
+  @ApiProperty()
+  files: Array<string>;
 
   @IsString()
   @ApiProperty()

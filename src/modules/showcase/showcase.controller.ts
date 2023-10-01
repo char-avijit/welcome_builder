@@ -29,13 +29,11 @@ export class ShowcaseController {
   }
 
   @Post()
-  @ApiConsumes("multipart/form-data", "application/json")
-  @UseInterceptors(FilesInterceptor("files", 20, imageUploadOptions))
   @ApiCreatedResponse({ type: ShowcaseEntity })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  create(@Body() createShowcaseDto: CreateShowcaseDto, @UploadedFiles() files: Array<Express.Multer.File>) {
-    return this.showcaseService.create({ createShowcaseDto, files });
+  create(@Body() createShowcaseDto: CreateShowcaseDto) {
+    return this.showcaseService.create({ createShowcaseDto});
   }
 
   @Get()
